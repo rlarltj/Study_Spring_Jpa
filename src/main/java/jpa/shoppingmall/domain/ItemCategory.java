@@ -3,6 +3,7 @@ package jpa.shoppingmall.domain;
 import javax.persistence.*;
 
 @Entity
+@Table(name="ITEM_CATEGORY")
 public class ItemCategory {
     @Id
     @GeneratedValue

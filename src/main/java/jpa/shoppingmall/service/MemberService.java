@@ -1,4 +1,4 @@
-package jpa.shoppingmall.domain.service;
+package jpa.shoppingmall.service;
 
 import jpa.shoppingmall.domain.Member;
 import jpa.shoppingmall.repository.MemberRepository;

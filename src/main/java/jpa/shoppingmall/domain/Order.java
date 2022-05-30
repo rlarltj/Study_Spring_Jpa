@@ -1,6 +1,8 @@
 package jpa.shoppingmall.domain;
 
 import lombok.Getter;
+import lombok.Setter;
+import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
+@Getter @Setter
 @Table(name = "ORDERS")
 public class Order {
     @Id @GeneratedValue
@@ -20,7 +22,7 @@ public class Order {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "DELIVERY_ID")
     private Delivery delivery;
 
@@ -54,4 +56,39 @@ public class Order {
         this.delivery = delivery;
         delivery.setOrder(this);
     }
+
+    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems){
+        Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+
+        for(OrderItem o : orderItems){
+            order.setOrderItem(o);
+        };
+
+        order.setOrderStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+
+        return order;
+    }
+
+    public void cancelOrder(){
+        if(delivery.getDeliveryStatus() == DeliveryStatus.COMP){
+            throw new IllegalStateException("이미 배송 완료된 상품은 취소가 불가능합니다.");
+        }
+        this.setOrderStatus(OrderStatus.CANCEL);
+        for (OrderItem o : orderItems) {
+            o.cancel();
+        }
+    }
+
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        for (OrderItem o : orderItems) {
+            totalPrice += o.getTotalPrice();
+        }
+
+        return totalPrice;
+    }
+
 }
