@@ -1,9 +1,12 @@
 package jpa.shoppingmall.repository;
 
+import jpa.shoppingmall.domain.Book;
 import jpa.shoppingmall.domain.Item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import java.util.List;
 
