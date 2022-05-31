@@ -1,8 +1,9 @@
 package jpa.shoppingmall.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
+@Getter @Setter
 public class OrderSearch {
     private String memberName;
     private OrderStatus orderStatus;

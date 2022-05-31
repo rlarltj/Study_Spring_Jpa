@@ -44,10 +44,6 @@ public class ItemService {
         itemRepository.save(book2);
     }
 
-    @PostConstruct
-    public void postConstruct() {
-        log.info("@PostConstruct");
-    }
     private Book createBook(String name, int stockQuantity, String author, String isbn, int price) {
         Book book = new Book();
         book.setName(name);
