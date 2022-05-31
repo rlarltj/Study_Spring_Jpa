@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,15 +20,22 @@ public class MemberService {
 
     @Transactional
     public Long join(Member member) {
-        validDuplicateMember(member);
+        if(validDuplicateLoginId(member))
         return memberRepository.save(member);
+
+        else throw new IllegalStateException("이미 사용중인 아이디입니다.");
     }
 
-    private void validDuplicateMember(Member member) {
-        List<Member> list = memberRepository.findByName(member.getUsername());
-        if(!list.isEmpty()){
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
-        }
+//    private void validDuplicateMember(Member member) {
+//        List<Member> list = memberRepository.findByName(member.getUsername());
+//        if(!list.isEmpty()){
+//            throw new IllegalStateException("이미 존재하는 회원입니다.");
+//        }
+//    }
+
+    private boolean validDuplicateLoginId(Member member){
+        Optional<Member> findMember = memberRepository.findMemberByLoginId(member.getLoginId());
+        return findMember.isEmpty();
     }
 
     public List<Member> findAll() {
@@ -46,15 +54,17 @@ public class MemberService {
     @Transactional
     @EventListener(ApplicationReadyEvent.class)
     public void sampleData() {
-        Member member1 = createMember("kim", 20, "seoul", "mapo-gu", "123-123");
-        Member member2 = createMember("Lee", 30, "busan", "street", "456-456");
+        Member member1 = createMember("kim", "test1", "1234" , 20, "seoul", "mapo-gu", "123-123");
+        Member member2 = createMember("Lee", "test2", "1234", 30, "busan", "street", "456-456");
 
         memberRepository.save(member1);
         memberRepository.save(member2);
     }
 
-    private Member createMember(String name, int age, String city, String street, String zipcode) {
+    private Member createMember(String name,  String loginId, String password, int age, String city, String street, String zipcode) {
         Member member = new Member();
+        member.setLoginId(loginId);
+        member.setPassword(password);
         member.setUsername(name);
         member.setAge(age);
         member.setAddress(new Address(city, street, zipcode));

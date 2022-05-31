@@ -43,6 +43,8 @@ public class MemberController {
             return "members/createMemberForm";
         }
         Member member = new Member();
+        member.setLoginId(form.getLoginId());
+        member.setPassword(form.getPassword());
         member.setUsername(form.getName());
         member.setAddress(new Address(form.getCity(), form.getStreet(), form.getZipcode()));
 
