@@ -4,6 +4,7 @@ import jpa.shoppingmall.domain.Member;
 import jpa.shoppingmall.exception.NoSuchUserException;
 import jpa.shoppingmall.repository.MemberRepository;
 import jpa.shoppingmall.service.MemberService;
+import jpa.shoppingmall.session.SessionConst;
 import jpa.shoppingmall.web.LoginForm;
 import jpa.shoppingmall.web.MemberForm;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -30,16 +33,10 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@Valid LoginForm loginForm, BindingResult bindingResult) {
+    public String login(@Valid LoginForm loginForm, BindingResult bindingResult, HttpServletRequest request) {
         if(bindingResult.hasErrors()){
             return "login/loginForm";
         }
-
-        return isloginPossible(loginForm);
-    }
-
-
-    private String isloginPossible(LoginForm loginForm) {
         /**
          * findMember가 null이면 Exception 발생
          * findMember의 비밀번호와 입력한 비밀번호가 같으면 로그인 성공
@@ -51,12 +48,28 @@ public class LoginController {
 
         String password = findMember.getPassword();
 
-        if(loginForm.getPassword().equals(password)){
-            return "redirect:/";
-        }else{
+        if(!loginForm.getPassword().equals(password)){
             return "login/loginForm";
+
+        }else{
+            HttpSession session = request.getSession();
+            session.setAttribute(SessionConst.LOGIN_MEMBER, loginForm.getId());
+            session.setAttribute("member", findMember);
+            log.info("멤버 정보 ={}, 이름={}", findMember, findMember.getUsername());
+
+            session.setAttribute("name", findMember.getUsername());
+            return "redirect:/";
         }
     }
 
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if(session != null)
+        session.invalidate();
+
+        return "redirect:/";
+    }
 
 }

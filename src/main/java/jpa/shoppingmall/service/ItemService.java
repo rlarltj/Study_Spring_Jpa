@@ -37,21 +37,21 @@ public class ItemService {
     @EventListener(ApplicationReadyEvent.class)
     public void sampleData() {
         log.info("Add sample data");
-        Book book1 = createBook("JPA", 10, "기서", "123", 10000);
-        Book book2 = createBook("Spring", 20, "로드 존슨", "456", 30000);
+        Book book1 = createBook("JPA", 10, "기서", "123", 10000, "kim");
+        Book book2 = createBook("Spring", 20, "로드 존슨", "456", 30000, "Lee");
 
         itemRepository.save(book1);
         itemRepository.save(book2);
     }
 
-    private Book createBook(String name, int stockQuantity, String author, String isbn, int price) {
+    private Book createBook(String name, int stockQuantity, String author, String isbn, int price, String seller) {
         Book book = new Book();
         book.setName(name);
         book.setStockQuantity(stockQuantity);
         book.setAuthor(author);
         book.setIsbn(isbn);
         book.setPrice(price);
-
+        book.setSeller(seller);
         return book;
     }
 }

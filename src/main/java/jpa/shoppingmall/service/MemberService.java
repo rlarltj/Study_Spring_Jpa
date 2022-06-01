@@ -1,6 +1,7 @@
 package jpa.shoppingmall.service;
 
 import jpa.shoppingmall.domain.Address;
+import jpa.shoppingmall.domain.GRADE;
 import jpa.shoppingmall.domain.Member;
 import jpa.shoppingmall.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -54,20 +55,21 @@ public class MemberService {
     @Transactional
     @EventListener(ApplicationReadyEvent.class)
     public void sampleData() {
-        Member member1 = createMember("kim", "test1", "1234" , 20, "seoul", "mapo-gu", "123-123");
-        Member member2 = createMember("Lee", "test2", "1234", 30, "busan", "street", "456-456");
+        Member member1 = createMember("kim", "test1", "1234" , 20, "seoul", "mapo-gu", "123-123", GRADE.ADMIN);
+        Member member2 = createMember("Lee", "test2", "1234", 30, "busan", "street", "456-456", GRADE.GUEST);
 
         memberRepository.save(member1);
         memberRepository.save(member2);
     }
 
-    private Member createMember(String name,  String loginId, String password, int age, String city, String street, String zipcode) {
+    private Member createMember(String name, String loginId, String password, int age, String city, String street, String zipcode, GRADE grade) {
         Member member = new Member();
         member.setLoginId(loginId);
         member.setPassword(password);
         member.setUsername(name);
         member.setAge(age);
         member.setAddress(new Address(city, street, zipcode));
+        member.setGrade(grade);
         return member;
     }
 }

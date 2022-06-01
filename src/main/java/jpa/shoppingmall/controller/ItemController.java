@@ -2,7 +2,10 @@ package jpa.shoppingmall.controller;
 
 import jpa.shoppingmall.domain.Book;
 import jpa.shoppingmall.domain.Item;
+import jpa.shoppingmall.domain.Member;
+import jpa.shoppingmall.repository.MemberRepository;
 import jpa.shoppingmall.service.ItemService;
+import jpa.shoppingmall.session.SessionConst;
 import jpa.shoppingmall.web.BookForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -21,6 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemController {
     private final ItemService itemService;
+    private final MemberRepository memberRepository;
 
     @GetMapping("/items/new")
     public String showItemForm(Model m) {
@@ -37,11 +43,15 @@ public class ItemController {
     }
 
     @PostMapping("/items/new")
-    public String saveItem(@Valid BookForm form, BindingResult bindingResult) {
+    public String saveItem(@Valid BookForm form, BindingResult bindingResult, HttpServletRequest request) {
         if(bindingResult.hasErrors()){
             log.info("ex={}", bindingResult.getFieldErrors());
             return "items/createItemForm";
         }
+
+        HttpSession session = request.getSession(false);
+        String loginId = (String)session.getAttribute(SessionConst.LOGIN_MEMBER);
+        Member member = memberRepository.findMemberByLoginId(loginId).get();
 
         Book book = new Book();
         book.setName(form.getName());
@@ -49,7 +59,7 @@ public class ItemController {
         book.setStockQuantity(form.getStockQuantity());
         book.setAuthor(form.getAuthor());
         book.setIsbn(form.getIsbn());
-
+        book.setSeller(member.getUsername());
 
         itemService.save(book);
 

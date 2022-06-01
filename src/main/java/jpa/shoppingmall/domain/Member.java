@@ -16,10 +16,12 @@ public class Member {
     private Long id;
     private String loginId;
     private String password;
-
     private String username;
     private int age;
     private int money;
+
+    @Enumerated(EnumType.STRING)
+    private GRADE grade;
 
     @OneToMany(mappedBy = "member")
     private List<Order> order = new ArrayList<>();
