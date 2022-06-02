@@ -53,11 +53,8 @@ public class LoginController {
 
         }else{
             HttpSession session = request.getSession();
-//            session.setAttribute(SessionConst.LOGIN_MEMBER, loginForm.getId());
             session.setAttribute("member", findMember);
-            log.info("멤버 정보 ={}, 이름={}", findMember, findMember.getUsername());
 
-//            session.setAttribute("name", findMember.getUsername());
             return "redirect:/";
         }
     }

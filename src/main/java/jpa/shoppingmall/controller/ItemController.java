@@ -50,8 +50,7 @@ public class ItemController {
         }
 
         HttpSession session = request.getSession(false);
-        String loginId = (String)session.getAttribute(SessionConst.LOGIN_MEMBER);
-        Member member = memberRepository.findMemberByLoginId(loginId).get();
+        Member member = (Member)session.getAttribute("member");
 
         Book book = new Book();
         book.setName(form.getName());

@@ -27,6 +27,9 @@
           <a href="#" th:if="${item.seller} == ${session.member.username}" th:href="@{/items/{id}/edit (id=${item.id})}"
              class="btn btn-primary" role="button">수정</a>
         </td>
+        <td><form th:method="post" th:action="@{/cart/{id} (id=${item.id})}">
+          <button>담기</button>
+        </form></td>
       </tr>
       </tbody>
     </table>

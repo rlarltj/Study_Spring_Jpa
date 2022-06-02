@@ -45,4 +45,16 @@ public class Cart {
 
         return cart;
     }
+
+    public static Cart createCartV2(Cart cart, Member member, CartItem ... cartItems){
+//        cart.setMember(member);
+
+        for(CartItem c : cartItems){
+            cart.setCartItem(c);
+        }
+
+        cart.setCartDate(LocalDateTime.now());
+
+        return cart;
+    }
 }
