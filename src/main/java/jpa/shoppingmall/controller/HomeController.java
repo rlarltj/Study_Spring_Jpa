@@ -27,8 +27,9 @@ public class HomeController {
             return "home";
         }
 
-        String loginId = (String) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        Member member = memberRepository.findMemberByLoginId(loginId).get();
+//        String loginId = (String) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        Member member = (Member) session.getAttribute("member");
+//        Member member = memberRepository.findMemberByLoginId(loginId).get();
 //                .orElseThrow(() -> new NoSuchUserException("일치하는 멤버가 없습니다."));
 
         if (member == null) {

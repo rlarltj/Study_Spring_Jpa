@@ -26,6 +26,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Order> order = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CART_ID")
+    private Cart cart;
 
     @Embedded
     private Address address;
