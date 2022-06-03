@@ -5,8 +5,8 @@ import jpa.shoppingmall.domain.Item;
 import jpa.shoppingmall.domain.Member;
 import jpa.shoppingmall.repository.MemberRepository;
 import jpa.shoppingmall.service.ItemService;
-import jpa.shoppingmall.session.SessionConst;
 import jpa.shoppingmall.web.BookForm;
+import jpa.shoppingmall.web.PageHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -38,9 +37,16 @@ public class ItemController {
 
     @GetMapping("/items")
     public String showItemList(Model m) {
-        List<Item> items = itemService.findAll();
+//        List<Item> items = itemService.findAll();
+        List<Item> items = itemService.findAllPaging(0, 10);
+        Long totalCnt = itemService.getTotalCnt();
+
+        PageHandler ph = new PageHandler(totalCnt);
+
         m.addAttribute("items", items);
+        m.addAttribute("ph", ph);
         return "items/itemList";
+
     }
 
     @PostMapping("/items/new")

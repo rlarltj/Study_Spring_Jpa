@@ -1,6 +1,7 @@
 package jpa.shoppingmall.controller;
 
 import jpa.shoppingmall.domain.Address;
+import jpa.shoppingmall.domain.GRADE;
 import jpa.shoppingmall.domain.Member;
 import jpa.shoppingmall.service.MemberService;
 import jpa.shoppingmall.web.MemberForm;
@@ -47,7 +48,7 @@ public class MemberController {
         member.setPassword(form.getPassword());
         member.setUsername(form.getName());
         member.setAddress(new Address(form.getCity(), form.getStreet(), form.getZipcode()));
-
+        member.setGrade(GRADE.GUEST);
         memberService.join(member);
         return "redirect:/";
     }

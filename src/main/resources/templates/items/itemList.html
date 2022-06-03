@@ -34,6 +34,16 @@
       </tbody>
     </table>
   </div>
+  <div class="paging-container">
+    <div class="paging">
+      <div th:if="${ph.totalCnt == 0}" th:text="|물품이 없습니다.|"></div>
+      <div th:if="${ph.totalCnt != 0} and ${ph.totalCnt != null}">
+      <div th:text="${ph.totalCnt}"></div>
+
+      </div>
+    </div>
+
+  </div>
   <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
 </body>

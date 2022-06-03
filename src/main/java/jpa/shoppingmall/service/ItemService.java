@@ -33,15 +33,27 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
+    public List<Item> findAllPaging(int offset, int limit) {
+        return itemRepository.findPaging(offset, limit);
+    }
+
+    public Long getTotalCnt() {
+        return itemRepository.getTotalCount();
+    }
+
+
     @Transactional
     @EventListener(ApplicationReadyEvent.class)
     public void sampleData() {
         log.info("Add sample data");
-        Book book1 = createBook("JPA", 10, "기서", "123", 10000, "kim");
-        Book book2 = createBook("Spring", 20, "로드 존슨", "456", 30000, "Lee");
-
-        itemRepository.save(book1);
-        itemRepository.save(book2);
+//        Book book1 = createBook("JPA", 10, "기서", "123", 10000, "kim");
+//        Book book2 = createBook("Spring", 20, "로드 존슨", "456", 30000, "Lee");
+        for (int i = 0; i < 25; i++) {
+            Book book1 = createBook("JPA"+i, 10, "기서", "123", 10000, "kim");
+            itemRepository.save(book1);
+        }
+//        itemRepository.save(book1);
+//        itemRepository.save(book2);
     }
 
     private Book createBook(String name, int stockQuantity, String author, String isbn, int price, String seller) {

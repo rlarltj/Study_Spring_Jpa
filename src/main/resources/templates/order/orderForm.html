@@ -20,7 +20,7 @@
                 <option value="">상품선택</option>
                 <option th:each="item : ${items}"
                         th:value="${item.item.id}"
-                        th:text="${item.item.name}" />
+                        th:text="|${item.item.name} &nbsp;&nbsp;&nbsp;&nbsp; 잔여 수량: ${item.item.stockQuantity}|" />
             </select>
         </div>
         <div class="form-group">

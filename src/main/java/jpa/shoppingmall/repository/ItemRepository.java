@@ -32,4 +32,15 @@ public class ItemRepository {
                 .getResultList();
     }
 
+    public List<Item> findPaging(int offset, int limit) {
+        return em.createQuery("select i from Item i", Item.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
+    public Long getTotalCount(){
+        return em.createQuery("select count(i) from Item i", Long.class)
+                .getSingleResult();
+    }
 }
