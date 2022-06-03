@@ -12,9 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 @Controller
@@ -37,14 +40,22 @@ public class CartController {
     }
 
     @PostMapping("/cart/{itemId}")
-    public String addCart(@PathVariable Long itemId, HttpServletRequest request) {
+    public String addCart(@PathVariable Long itemId, Model m,
+                          HttpServletRequest request,
+                          RedirectAttributes rattr){
+
         HttpSession session = request.getSession();
         Member member = (Member)session.getAttribute("member");
         Item item = itemService.findOne(itemId);
         Long cartId = (Long) session.getAttribute("cartId");
 
-        if(cartId == null){
+        if(item.getStockQuantity() <= 0){
+            rattr.addFlashAttribute("msg", "CART_F");
+            return "redirect:/items";
+        }
 
+        if(cartId == null){
+            // 처음 담는 경우 장바구니 생성 + 장바구니에 담기
             cartId = cartService.createCart(member.getId(), item.getId());
             session.setAttribute("cartId", cartId);
 
@@ -53,7 +64,7 @@ public class CartController {
             cartService.addCartItem(cartId, member.getId(), item.getId());
 
         }
-        //카트 Id로 카트를 찾아온다.
+        rattr.addFlashAttribute("msg", "CART_P");
         return "redirect:/items";
     }
 
@@ -63,6 +74,6 @@ public class CartController {
         Member member = (Member)session.getAttribute("member");
         cartService.deleteOne(itemId);
         log.info("item ={}", itemId);
-        return "redirect:/";
+        return "redirect:/carts";
     }
 }

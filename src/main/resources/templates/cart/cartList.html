@@ -23,6 +23,13 @@
                 <td th:text="${item.item.price}"></td>
                 <td th:text="${item.item.stockQuantity}"></td>
                 <td th:text="${item.item.seller}"></td>
+                <td>
+                    <form th:if="${item.item.stockQuantity} != 0" th:method="get" th:action="@{/order}">
+                    <button>주문하기</button>
+                    </form>
+                </td>
+                <td th:if="${item.item.stockQuantity} == 0">재고 부족</td>
+
                 <td><td><form th:method="post" th:action="@{/cart/{id}/delete (id=${item.id})}">
                 <button>X</button>
             </form></td>

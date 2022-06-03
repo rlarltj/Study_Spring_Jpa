@@ -1,9 +1,7 @@
 package jpa.shoppingmall.controller;
 
-import jpa.shoppingmall.domain.Item;
-import jpa.shoppingmall.domain.Member;
-import jpa.shoppingmall.domain.Order;
-import jpa.shoppingmall.domain.OrderSearch;
+import jpa.shoppingmall.domain.*;
+import jpa.shoppingmall.service.CartService;
 import jpa.shoppingmall.service.ItemService;
 import jpa.shoppingmall.service.MemberService;
 import jpa.shoppingmall.service.OrderService;
@@ -13,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -22,13 +22,18 @@ public class OrderController {
     private final OrderService orderService;
     private final MemberService memberService;
     private final ItemService itemService;
-
+    private final CartService cartService;
     @GetMapping("/order")
-    public String orderForm(Model m) {
-        List<Member> members = memberService.findAll();
-        List<Item> items = itemService.findAll();
+    public String orderForm(Model m, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        Member member = (Member) session.getAttribute("member");
+        Long cartId = (Long) session.getAttribute("cartId");
+//        List<Member> members = memberService.findAll();
+//        List<Item> items = itemService.findAll();
+        List<CartItem> items = cartService.findAll(cartId);
 
-        m.addAttribute("members", members);
+
+        m.addAttribute("members", member);
         m.addAttribute("items", items);
 
         return "order/orderForm";

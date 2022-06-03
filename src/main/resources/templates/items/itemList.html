@@ -37,4 +37,16 @@
   <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
 </body>
+<script>
+
+let msg ="[[${msg}]]";
+console.log(msg);
+if(msg == "CART_F"){
+  alert("재고가 부족합니다.");
+}
+if(msg == "CART_P"){
+  alert("장바구니에 저장되었습니다.");
+}
+
+</script>
 </html>

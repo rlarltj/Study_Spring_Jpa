@@ -55,16 +55,8 @@ public class CartService {
         CartItem cartItem = CartItem.createCartItem(item);
         Cart cart = Cart.createCart(member, cartItem);
         cartRepository.save(cart);
-        //장바구니가 계속 생성된다.
-        return cart.getId();
-    }
-
-    @Transactional
-    public Long firstCreateCart(Long memberId) {
-        Member member = memberRepository.findOne(memberId);
-        Cart cart = new Cart();
-        cartRepository.save(cart);
 
         return cart.getId();
     }
+    
 }
