@@ -23,6 +23,16 @@ public abstract class Item {
 
     private String seller;
 
+    public Item() {
+    }
+
+    public Item(String name, int price, int stockQuantity, String seller) {
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.seller = seller;
+    }
+
     @OneToMany(mappedBy = "item")
     private List<ItemCategory> itemCategory = new ArrayList<>();
 

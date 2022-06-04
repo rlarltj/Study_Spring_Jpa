@@ -1,11 +1,10 @@
 package jpa.shoppingmall.controller;
 
-import jpa.shoppingmall.domain.Book;
-import jpa.shoppingmall.domain.Item;
-import jpa.shoppingmall.domain.Member;
+import jpa.shoppingmall.domain.*;
 import jpa.shoppingmall.repository.MemberRepository;
 import jpa.shoppingmall.service.ItemService;
 import jpa.shoppingmall.web.BookForm;
+import jpa.shoppingmall.web.ItemForm;
 import jpa.shoppingmall.web.PageHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,12 +28,31 @@ public class ItemController {
     private final ItemService itemService;
     private final MemberRepository memberRepository;
 
-    @GetMapping("/items/new")
+//    @GetMapping("/items/new")
     public String showItemForm(Model m) {
         BookForm bookForm = new BookForm();
         m.addAttribute("bookForm", bookForm);
         return "items/createItemForm";
     }
+
+    @GetMapping("items/new")
+    public String showItemFormV2(Model m, @RequestParam String type) {
+        log.info("item type={}", type);
+
+        ItemForm itemForm = new ItemForm();
+
+        m.addAttribute("itemForm", itemForm);
+        m.addAttribute("type", type);
+        return "items/createItemForm";
+    }
+
+
+    @GetMapping("/items/category")
+    public String showCateList() {
+
+        return "items/itemCategoryForm";
+    }
+
 
     @GetMapping("/items")
     public String showItemList(Model m, @RequestParam(defaultValue = "1") int page) {
@@ -56,28 +74,36 @@ public class ItemController {
     }
 
     @PostMapping("/items/new")
-    public String saveItem(@Valid BookForm form, BindingResult bindingResult, HttpServletRequest request) {
+    public String saveItem(@Valid ItemForm form, BindingResult bindingResult, HttpServletRequest request) {
         if(bindingResult.hasErrors()){
             log.info("ex={}", bindingResult.getFieldErrors());
             return "items/createItemForm";
         }
-
+        log.info("item's type={}, director={}", form.getType(), form.getDirector());
         HttpSession session = request.getSession(false);
         Member member = (Member)session.getAttribute("member");
 
-        Book book = new Book();
-        book.setName(form.getName());
-        book.setPrice(form.getPrice());
-        book.setStockQuantity(form.getStockQuantity());
-        book.setAuthor(form.getAuthor());
-        book.setIsbn(form.getIsbn());
-        book.setSeller(member.getUsername());
 
-        itemService.save(book);
+        if(form.getType().equals("movie")){
+            Movie movie = new Movie(form.getName(), form.getPrice(), form.getStockQuantity(),
+            form.getDirector(), form.getActor(), member.getUsername());
 
+            itemService.save(movie);
+
+        }else if(form.getType().equals("book")){
+            Book book = new Book(form.getName(), form.getPrice(), form.getStockQuantity(),
+                    form.getAuthor(), form.getIsbn(), member.getUsername());
+
+            itemService.save(book);
+
+        }else{
+            Lp lp = new Lp(form.getName(), form.getPrice(), form.getStockQuantity(),
+                    form.getArtist(), form.getEtc(), member.getUsername());
+
+            itemService.save(lp);
+        }
         return "redirect:/";
     }
-
     @GetMapping("items/{itemId}/edit")
     public String showEditForm(@PathVariable("itemId") Long itemId, Model m) {
         Book item = (Book) itemService.findOne(itemId);

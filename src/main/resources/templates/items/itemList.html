@@ -36,18 +36,18 @@
       </tbody>
     </table>
   </div>
-  <div class="paging-container">
+  <div class="paging-container text-center">
     <div class="paging">
       <div th:if="${ph.totalCnt == 0}" th:text="|물품이 없습니다.|"></div>
       <div th:if="${ph.totalCnt != 0} and ${ph.totalCnt != null}">
         <th:block th:if="${ph.showPrev}">
-          <a th:href="@{/items(page=${ph.beginPage-1})}" th:text="|이전 페이지|"></a>
+          <a th:href="@{/items(page=${ph.beginPage-1})}"><</a>
         </th:block>
         <th:block th:each="i: ${#numbers.sequence(ph.beginPage, ph.endPage)}">
           <a th:href="@{/items(page=${i})}" th:text="${i}"></a>
         </th:block>
         <th:block th:if="${ph.showNext}">
-          <a th:href="@{/items(page=${ph.endPage+1})}" th:text="|다음 페이지|"></a>
+          <a th:href="@{/items(page=${ph.endPage+1})}">></a>
         </th:block>
       </div>
     </div>

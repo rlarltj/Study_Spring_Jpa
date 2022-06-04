@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<style>
+    .fieldError {
+        border-color: #bd2130;
+    }
+    p {
+        color :  #bd2130;
+    }
+</style>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <h5>등록하실 상품의 카테고리를 골라주세요.</h5>
+
+    <form th:action="@{/items/new}" method="get">
+        <div>
+            <a th:href="@{/items/new(type=book)}" th:text="|도서|"></a>
+        </div>
+    </form>
+    <form th:action="@{/items/new}"  method="post">
+        <div>
+            <a th:href="@{/items/new(type=movie)}" th:text="|영화|"></a>
+        </div>
+    </form>
+    <form th:action="@{/items/new}" method="post">
+        <div>
+            <a th:href="@{/items/new(type=lp)}" th:text="|LP|"></a>
+        </div>
+    </form>
+    <br/>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>
