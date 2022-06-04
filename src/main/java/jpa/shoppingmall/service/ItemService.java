@@ -48,7 +48,7 @@ public class ItemService {
         log.info("Add sample data");
 //        Book book1 = createBook("JPA", 10, "기서", "123", 10000, "kim");
 //        Book book2 = createBook("Spring", 20, "로드 존슨", "456", 30000, "Lee");
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 250; i++) {
             Book book1 = createBook("JPA"+i, 10, "기서", "123", 10000, "kim");
             itemRepository.save(book1);
         }

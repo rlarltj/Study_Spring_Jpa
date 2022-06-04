@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -36,15 +37,20 @@ public class ItemController {
     }
 
     @GetMapping("/items")
-    public String showItemList(Model m) {
+    public String showItemList(Model m, @RequestParam(defaultValue = "1") int page) {
 //        List<Item> items = itemService.findAll();
-        List<Item> items = itemService.findAllPaging(0, 10);
+        int offset = (page-1) * 10;
+        int limit = 10;
+
+        List<Item> items = itemService.findAllPaging(offset, limit);
         Long totalCnt = itemService.getTotalCnt();
 
-        PageHandler ph = new PageHandler(totalCnt);
+        PageHandler ph = new PageHandler(totalCnt, page);
 
         m.addAttribute("items", items);
         m.addAttribute("ph", ph);
+        log.info("show Prev ={}, next={}", ph.isShowPrev(), ph.isShowNext());
+        log.info("ph={}", ph);
         return "items/itemList";
 
     }

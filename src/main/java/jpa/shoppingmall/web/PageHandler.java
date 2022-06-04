@@ -2,8 +2,9 @@ package jpa.shoppingmall.web;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Getter @Setter
+@Getter @Setter @ToString
 public class PageHandler {
     private boolean showPrev;
     private boolean showNext;
@@ -18,16 +19,18 @@ public class PageHandler {
     public PageHandler() {
     }
 
-    public PageHandler(Long totalCnt) {
+    public PageHandler(Long totalCnt, int page) {
         this.totalCnt = totalCnt;
-        doPaging(totalCnt);
+        this.page = page;
+
+        doPaging(totalCnt, page);
     }
 
-    public void doPaging(Long totalCnt){
+    public void doPaging(Long totalCnt, int page){
         this.totalCnt = totalCnt;
 
         totalPage = (int) Math.ceil(totalCnt / (double)naviSize);
-        beginPage = page/naviSize*naviSize + 1;
+        beginPage = (page-1)/naviSize*naviSize + 1;
         endPage = Math.min(beginPage + naviSize -1, totalPage);
 
         showPrev = beginPage != 1;

@@ -42,7 +42,7 @@ public class CartController {
     @PostMapping("/cart/{itemId}")
     public String addCart(@PathVariable Long itemId, Model m,
                           HttpServletRequest request,
-                          RedirectAttributes rattr){
+                          RedirectAttributes rattr, int page){
 
         HttpSession session = request.getSession();
         Member member = (Member)session.getAttribute("member");
@@ -65,7 +65,7 @@ public class CartController {
 
         }
         rattr.addFlashAttribute("msg", "CART_P");
-        return "redirect:/items";
+        return "redirect:/items?page=" + page;
     }
 
     @PostMapping("/cart/{itemId}/delete")
