@@ -4,6 +4,11 @@
 <body>
 <div class="container">
   <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+  <div class="category-container">
+      <button class="btn btn-dark" th:onclick="|location.href='@{/items?category=book}'|">책</button>
+      <button class="btn btn-dark" th:onclick="|location.href='@{/items?category=movie}'|">영화</button>
+      <button class="btn btn-dark" th:onclick="|location.href='@{/items?category=lp}'|">음반</button>
+  </div>
   <div>
     <table class="table table-striped">
       <thead>

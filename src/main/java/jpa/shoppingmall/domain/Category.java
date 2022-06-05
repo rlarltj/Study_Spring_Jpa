@@ -32,4 +32,11 @@ public class Category {
         this.child.add(child);
         child.setParent(this);
     }
+
+    public static Category createCategory(String name) {
+        Category category = new Category();
+        category.setName(name);
+
+        return category;
+    }
 }

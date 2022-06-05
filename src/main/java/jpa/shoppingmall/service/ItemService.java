@@ -19,6 +19,7 @@ import java.util.List;
 @Slf4j
 public class ItemService {
     private final ItemRepository itemRepository;
+    private final CategoryService categoryService;
     @Transactional
     public Long save(Item item) {
         itemRepository.save(item);
@@ -49,6 +50,7 @@ public class ItemService {
         for (int i = 0; i < 250; i++) {
             Book book1 = createBook("JPA"+i, 10, "기서", "123", 10000, "kim");
             itemRepository.save(book1);
+            categoryService.save(book1.getId(), "book");
         }
     }
 
