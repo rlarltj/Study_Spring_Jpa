@@ -29,12 +29,6 @@ public class ItemController {
     private final ItemService itemService;
     private final MemberRepository memberRepository;
     private final CategoryService categoryService;
-//    @GetMapping("/items/new")
-    public String showItemForm(Model m) {
-        BookForm bookForm = new BookForm();
-        m.addAttribute("bookForm", bookForm);
-        return "items/createItemForm";
-    }
 
     @GetMapping("items/new")
     public String showItemFormV2(Model m, @RequestParam String type) {

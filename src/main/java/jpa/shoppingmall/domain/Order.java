@@ -41,7 +41,6 @@ public class Order {
     }
 
 
-    // 연관관계 편의 메서드
     public void setMember(Member member) {
         member.getOrder().add(this);
         this.member = member;

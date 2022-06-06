@@ -25,7 +25,7 @@
    <p class="lead">회원 기능</p>
    <p>
     <a id="logout" class="btn btn-lg btn-secondary" th:href="'javascript:logout()'">로그아웃</a>
-    <a class="btn btn-lg btn-secondary" href="/members">회원 목록</a>
+    <a class="btn btn-lg btn-secondary" href="/members" th:onclick="memberList([[${session.member.grade}]])">회원 목록</a>
    </p>
    <p class="lead">상품 기능</p>
    <p>
@@ -51,6 +51,12 @@
     form.setAttribute("action", "/logout");
     document.body.appendChild(form);
     form.submit();
+ }
+
+ function memberList(grade) {
+   if(grade == "GUEST"){
+    alert("no permission");
+   }
  }
 </script>
 </html>

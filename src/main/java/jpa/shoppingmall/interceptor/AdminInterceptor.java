@@ -23,7 +23,8 @@ public class AdminInterceptor implements HandlerInterceptor {
         //세션에 멤버 객체를 저장하자
 
         if(member.getGrade() == GRADE.GUEST){
-            log.info("권한 없는 사용자");
+            request.setAttribute("msg", "no permission");
+            log.info("권한 없는 사용자 msg ={}", request.getAttribute("msg"));
             response.sendRedirect("/");
             return false;
         }
