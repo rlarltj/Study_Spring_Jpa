@@ -3,6 +3,7 @@ package jpa.shoppingmall.service;
 import jpa.shoppingmall.domain.Address;
 import jpa.shoppingmall.domain.GRADE;
 import jpa.shoppingmall.domain.Member;
+import jpa.shoppingmall.exception.NoSuchUserException;
 import jpa.shoppingmall.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -27,12 +28,10 @@ public class MemberService {
         else throw new IllegalStateException("이미 사용중인 아이디입니다.");
     }
 
-//    private void validDuplicateMember(Member member) {
-//        List<Member> list = memberRepository.findByName(member.getUsername());
-//        if(!list.isEmpty()){
-//            throw new IllegalStateException("이미 존재하는 회원입니다.");
-//        }
-//    }
+    public Member findMemberByLoginId(String LoginId){
+        return memberRepository.findMemberByLoginId(LoginId)
+                .orElseThrow(() -> new NoSuchUserException("일치하는 아이디가 없습니다."));
+    }
 
     private boolean validDuplicateLoginId(Member member){
         Optional<Member> findMember = memberRepository.findMemberByLoginId(member.getLoginId());

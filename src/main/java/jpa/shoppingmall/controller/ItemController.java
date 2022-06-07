@@ -12,10 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,7 +28,7 @@ public class ItemController {
     private final CategoryService categoryService;
 
     @GetMapping("items/new")
-    public String showItemFormV2(Model m, @RequestParam String type) {
+    public String showItemFormV2(Model m, @RequestParam(required = true) String type) {
         log.info("item type={}", type);
 
         ItemForm itemForm = new ItemForm();
@@ -82,9 +79,11 @@ public class ItemController {
     }
 
     @PostMapping("/items/new")
-    public String saveItem(@Valid ItemForm form, BindingResult bindingResult, HttpServletRequest request) {
+    public String saveItem(@Valid @ModelAttribute ItemForm form, BindingResult bindingResult, HttpServletRequest request, Model m) {
         if(bindingResult.hasErrors()){
             log.info("ex={}", bindingResult.getFieldErrors());
+
+            m.addAttribute("type", form.getType());
             return "items/createItemForm";
         }
         log.info("item's type={}, director={}", form.getType(), form.getDirector());
