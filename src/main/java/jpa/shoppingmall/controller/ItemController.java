@@ -111,21 +111,7 @@ public class ItemController {
         }
         return "redirect:/";
     }
-//    @GetMapping("items/{itemId}/edit")
-//    public String showEditForm(@PathVariable("itemId") Long itemId, Model m) {
-//        Book item = (Book) itemService.findOne(itemId);
-//        BookForm form = new BookForm();
-//
-//        form.setName(item.getName());
-//        form.setStockQuantity(item.getStockQuantity());
-//        form.setAuthor(item.getAuthor());
-//        form.setIsbn(item.getIsbn());
-//        form.setPrice(item.getPrice());
-//
-//        m.addAttribute("form", form);
-//
-//        return "items/updateItemForm";
-//    }
+
     @GetMapping("items/{itemId}/edit")
     public String showEditForm(@PathVariable("itemId") Long itemId, Model m) {
         Item item = itemService.findOne(itemId);
@@ -156,5 +142,34 @@ public class ItemController {
         itemService.save(item);
 
         return "redirect:/items";
+    }
+
+    @GetMapping("items/{itemId}")
+    public String itemInfo(@PathVariable("itemId") Long itemId, Model m) {
+        Item item = itemService.findOne(itemId);
+        ItemForm form = new ItemForm();
+        String type = categoryService.findOne(item.getId()).getCategory().getName();//카테고리 명
+
+        form.setName(item.getName());
+        form.setPrice(item.getPrice());
+        form.setStockQuantity(item.getStockQuantity());
+
+        if(type.equals("book")){
+            Book book = (Book)item;
+            form.setAuthor(book.getAuthor());
+            form.setIsbn(book.getIsbn());
+        }else if(type.equals("movie")){
+            Movie movie = (Movie)item;
+            form.setActor(movie.getActor());
+            form.setDirector(movie.getDirector());
+        }else{
+            Lp lp = (Lp)item;
+            form.setArtist(lp.getArtist());
+            form.setEtc(lp.getEtc());
+        }
+
+        m.addAttribute("type", type);
+        m.addAttribute("itemForm", form);
+        return "items/itemInfo";
     }
 }
