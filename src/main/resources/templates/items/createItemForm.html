@@ -30,26 +30,26 @@
             <p th:if="${#fields.hasErrors('stockQuantity')}"
                th:errors="*{stockQuantity}">Incorrect date</p>
         </div>
-        <div th:if="${type} ==  'book'">
+        <div th:if="${type} ==  'specialty'">
             <div class="form-group">
-                <input type="hidden" name="type" value="book">
-                <label th:for="author">저자</label>
-                <input type="text" th:field="*{author}" class="form-control"
-                       placeholder="저자를 입력하세요">
-                <p th:if="${#fields.hasErrors('author')}"
-                   th:errors="*{author}">Incorrect date</p>
+                <input type="hidden" name="type" value="specialty">
+                <label th:for="origin">생산지</label>
+                <input type="text" th:field="*{origin}" class="form-control"
+                       placeholder="생산지를 입력하세요">
+                <p th:if="${#fields.hasErrors('origin')}"
+                   th:errors="*{origin}">Incorrect date</p>
             </div>
             <div class="form-group">
-                <label th:for="isbn">ISBN</label>
-                <input type="text" th:field="*{isbn}" class="form-control"
-                       placeholder="ISBN을 입력하세요">
-                <p th:if="${#fields.hasErrors('isbn')}"
-                   th:errors="*{isbn}">Incorrect date</p>
+                <label th:for="prodGroup">생산단체</label>
+                <input type="text" th:field="*{prodGroup}" class="form-control"
+                       placeholder="생산단체를 입력하세요">
+                <p th:if="${#fields.hasErrors('prodGroup')}"
+                   th:errors="*{prodGroup}">Incorrect date</p>
             </div>
         </div>
-        <div th:if="${type} == 'lp'">
+        <div th:if="${type} == 'tradition'">
             <div class="form-group">
-                <input type="hidden" name="type" value="lp">
+                <input type="hidden" name="type" value="tradition">
                 <label th:for="artist">아티스트</label>
                 <input type="text" th:field="*{artist}" class="form-control"
                        placeholder="아티스트를 입력하세요">
@@ -57,28 +57,28 @@
                    th:errors="*{artist}">Incorrect date</p>
             </div>
             <div class="form-group">
-                <label th:for="기타">ETC</label>
-                <input type="text" th:field="*{etc}" class="form-control"
+                <label th:for="기타">위치</label>
+                <input type="text" th:field="*{location}" class="form-control"
                        placeholder="기타 정보를 입력하세요">
-                <p th:if="${#fields.hasErrors('etc')}"
-                   th:errors="*{etc}">Incorrect date</p>
+                <p th:if="${#fields.hasErrors('location')}"
+                   th:errors="*{location}">Incorrect date</p>
             </div>
         </div>
-        <div th:if="${type} == 'movie'">
+        <div th:if="${type} == 'leisure'">
             <div class="form-group">
-                <input type="hidden" name="type" value="movie">
-                <label th:for="director">감독</label>
-                <input type="text" th:field="*{director}" class="form-control"
-                       placeholder="감독을 입력하세요">
-                <p th:if="${#fields.hasErrors('director')}"
-                   th:errors="*{director}">Incorrect date</p>
+                <input type="hidden" name="type" value="leisure">
+                <label th:for="location">장소</label>
+                <input type="text" th:field="*{location}" class="form-control"
+                       placeholder="장소를 입력하세요">
+                <p th:if="${#fields.hasErrors('location')}"
+                   th:errors="*{location}">Incorrect date</p>
             </div>
             <div class="form-group">
-                <label th:for="actor">actor</label>
-                <input type="text" th:field="*{actor}" class="form-control"
-                       placeholder="배우를 입력하세요">
-                <p th:if="${#fields.hasErrors('actor')}"
-                   th:errors="*{actor}">Incorrect date</p>
+                <label th:for="time">소요시간</label>
+                <input type="text" th:field="*{time}" class="form-control"
+                       placeholder="소요시간을 입력하세요">
+                <p th:if="${#fields.hasErrors('time')}"
+                   th:errors="*{time}">Incorrect date</p>
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>

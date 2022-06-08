@@ -26,11 +26,13 @@ public class CategoryRepository {
                 .getSingleResult();
     }
 
-    public List<Item> findCateItems(String category){
+    public List<Item> findCateItems(String category, int limit, int offset){
         return em.createQuery("select item from ItemCategory itemcate " +
                         "join itemcate.item as item " +
                         "where itemcate.category.name = :category")
                 .setParameter("category", category)
+                .setFirstResult(limit)
+                .setMaxResults(offset)
                 .getResultList();
     }
 

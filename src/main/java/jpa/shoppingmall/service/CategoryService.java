@@ -28,6 +28,7 @@ public class CategoryService {
         categoryRepository.save(itemCategory);
         return itemCategory.getId();
     }
+
     public Long getCount(String category){
         return categoryRepository.getTotalCount(category);
     }
@@ -35,7 +36,7 @@ public class CategoryService {
         return categoryRepository.findOne(itemId);
     }
 
-    public List<Item> findItems(String category){
-        return categoryRepository.findCateItems(category);
+    public List<Item> findItems(String category, int offset, int limit){
+        return categoryRepository.findCateItems(category, offset, limit);
     }
 }

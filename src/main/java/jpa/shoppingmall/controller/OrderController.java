@@ -69,7 +69,6 @@ public class OrderController {
     public String orderList(@ModelAttribute("orderSearch") OrderSearch orderSearch, Model m){
         List<Order> orders = orderService.findOrders(orderSearch);
         m.addAttribute("orders", orders);
-//        log.info("name ={}, status ={}", orderSearch.getMemberName(), orderSearch.getOrderStatus());
         return "order/orderList";
     }
 

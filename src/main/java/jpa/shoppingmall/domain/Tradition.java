@@ -7,17 +7,17 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity @Getter @Setter
-@DiscriminatorValue("L")
-public class Lp extends Item {
+@DiscriminatorValue("T")
+public class Tradition extends Item {
+    private String location;
     private String artist;
-    private String etc;
 
-    public Lp() {
+    public Tradition() {
     }
 
-    public Lp(String name, int price, int stockQuantity, String artist, String etc, String seller) {
+    public Tradition(String name, int price, int stockQuantity, String artist, String location, String seller) {
         super(name, price, stockQuantity, seller);
         this.artist = artist;
-        this.etc = etc;
+        this.location = location;
     }
 }

@@ -14,19 +14,19 @@
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <h5>등록하실 상품의 카테고리를 골라주세요.</h5>
 
+    <form th:action="@{/items/new}"  method="get">
+        <div>
+            <a th:href="@{/items/new(type=specialty)}" th:text="|특산품|"></a>
+        </div>
+    </form>
     <form th:action="@{/items/new}" method="get">
         <div>
-            <a th:href="@{/items/new(type=book)}" th:text="|도서|"></a>
+            <a th:href="@{/items/new(type=leisure)}" th:text="|레저|"></a>
         </div>
     </form>
-    <form th:action="@{/items/new}"  method="post">
+    <form th:action="@{/items/new}" method="get">
         <div>
-            <a th:href="@{/items/new(type=movie)}" th:text="|영화|"></a>
-        </div>
-    </form>
-    <form th:action="@{/items/new}" method="post">
-        <div>
-            <a th:href="@{/items/new(type=lp)}" th:text="|LP|"></a>
+            <a th:href="@{/items/new(type=tradition)}" th:text="|문화|"></a>
         </div>
     </form>
     <br/>

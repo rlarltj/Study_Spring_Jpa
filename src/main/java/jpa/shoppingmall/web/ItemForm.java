@@ -26,20 +26,20 @@ public class ItemForm {
     private String type;
     // 도서
 //    @NotNull(message = "필수 입력사항입니다.")
-    private String author;
+    private String origin;
 //    @NotNull(message = "필수 입력사항입니다.")
-    private String isbn;
+    private String prodGroup;
     
     // LP
 //    @NotNull(message = "필수 입력사항입니다.")
     private String artist;
 
 //    @NotNull(message = "필수 입력사항입니다.")
-    private String etc;
+    private String location;
     
     // 영화
 //    @NotNull(message = "필수 입력사항입니다.")
-    private String director;
+//    private String location;
 //    @NotNull(message = "필수 입력사항입니다.")
-    private String actor;
+    private int time;
 }

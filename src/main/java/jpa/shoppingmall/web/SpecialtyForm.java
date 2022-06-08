@@ -6,11 +6,10 @@ import lombok.Setter;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class BookForm {
+public class SpecialtyForm {
     private Long id;
 
     @NotEmpty(message = "이름을 입력해주세요")
@@ -23,7 +22,7 @@ public class BookForm {
     @Min(message = "수량을 입력해주세요", value = 1)
     private int stockQuantity;
 
-    private String author;
-    private String isbn;
+    private String origin;
+    private String prodGroup;
 
 }

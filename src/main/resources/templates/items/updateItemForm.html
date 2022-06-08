@@ -22,40 +22,40 @@
             <input type="number" th:field="*{stockQuantity}" class="form-
 control" placeholder="수량을 입력하세요" />
         </div>
-        <div th:if="${category.toString()} == 'book'">
+        <div th:if="${category.toString()} == 'specialty'">
             <div class="form-group">
-                <label th:for="author">저자</label>
-                <input type="text" th:field="*{author}" class="form-control"
-                       placeholder="저자를 입력하세요" />
+                <label th:for="origin">생산지</label>
+                <input type="text" th:field="*{origin}" class="form-control"
+                       placeholder="생산지를 입력하세요" />
             </div>
             <div class="form-group">
-                <label th:for="isbn">ISBN</label>
-                <input type="text" th:field="*{isbn}" class="form-control"
-                       placeholder="ISBN을 입력하세요" />
-            </div>
-        </div>
-        <div th:if="${category.toString()} == 'movie'">
-            <div class="form-group">
-                <label th:for="director">감독</label>
-                <input type="text" th:field="*{director}" class="form-control"
-                       placeholder="저자를 입력하세요" />
-            </div>
-            <div class="form-group">
-                <label th:for="actor">배우</label>
-                <input type="text" th:field="*{actor}" class="form-control"
-                       placeholder="ISBN을 입력하세요" />
+                <label th:for="prodGroup">생산단체</label>
+                <input type="text" th:field="*{prodGroup}" class="form-control"
+                       placeholder="생산단체를 입력하세요" />
             </div>
         </div>
-        <div th:if="${category.toString()} == 'lp'">
+        <div th:if="${category.toString()} == 'leisure'">
+            <div class="form-group">
+                <label th:for="location">장소</label>
+                <input type="text" th:field="*{location}" class="form-control"
+                       placeholder="장소를 입력하세요" />
+            </div>
+            <div class="form-group">
+                <label th:for="time">소요시간</label>
+                <input type="text" th:field="*{time}" class="form-control"
+                       placeholder="소요시간을 입력하세요" />
+            </div>
+        </div>
+        <div th:if="${category.toString()} == 'tradition'">
             <div class="form-group">
                 <label th:for="artist">아티스트</label>
                 <input type="text" th:field="*{artist}" class="form-control"
-                       placeholder="저자를 입력하세요" />
+                       placeholder="아티스트를 입력하세요" />
             </div>
             <div class="form-group">
-                <label th:for="etc">기타</label>
-                <input type="text" th:field="*{etc}" class="form-control"
-                       placeholder="ISBN을 입력하세요" />
+                <label th:for="location">기타</label>
+                <input type="text" th:field="*{location}" class="form-control"
+                       placeholder="위치를 입력하세요" />
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>

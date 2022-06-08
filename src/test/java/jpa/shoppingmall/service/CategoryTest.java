@@ -1,6 +1,6 @@
 package jpa.shoppingmall.service;
 
-import jpa.shoppingmall.domain.Book;
+import jpa.shoppingmall.domain.Specialty;
 import jpa.shoppingmall.domain.Category;
 import jpa.shoppingmall.domain.Item;
 import jpa.shoppingmall.domain.ItemCategory;
@@ -8,7 +8,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -27,13 +26,13 @@ public class CategoryTest {
 
     @Test
     public void category1() {
-        Book book = new Book("책책책", 10000, 5, "권군", "isbn", "고려서점");
-        em.persist(book);
+        Specialty specialty = new Specialty("책책책", 10000, 5, "권군", "isbn", "고려서점");
+        em.persist(specialty);
         String c = "book";
         Category cate = Category.createCategory(c);
         em.persist(cate);
 
-        ItemCategory itemCategory = ItemCategory.createCategoryItem(cate, book);
+        ItemCategory itemCategory = ItemCategory.createCategoryItem(cate, specialty);
         em.persist(itemCategory);
 
 
@@ -42,8 +41,8 @@ public class CategoryTest {
                         "where itemcate.category.id = :category")
                 .setParameter("category", cate.getId())
                 .getResultList();
-        Book book1 = (Book) resultList.get(0);
-        Assertions.assertThat(book1.getName()).isEqualTo(book.getName());
+        Specialty specialty1 = (Specialty) resultList.get(0);
+        Assertions.assertThat(specialty1.getName()).isEqualTo(specialty.getName());
 
         List resultList2 = em.createQuery("select item from ItemCategory itemcate " +
                 "join itemcate.item as item " +
@@ -55,12 +54,12 @@ public class CategoryTest {
 
     @Test
     public void cateService() {
-        Book book = new Book("책책책", 10000, 5, "권군", "isbn", "고려서점");
-        em.persist(book);
+        Specialty specialty = new Specialty("책책책", 10000, 5, "권군", "isbn", "고려서점");
+        em.persist(specialty);
 
-        categoryService.save(book.getId(), "책코너");
+        categoryService.save(specialty.getId(), "책코너");
 
-        ItemCategory one = categoryService.findOne(book.getId());
+        ItemCategory one = categoryService.findOne(specialty.getId());
 
         System.out.println(one.getCategory().getName());
     }

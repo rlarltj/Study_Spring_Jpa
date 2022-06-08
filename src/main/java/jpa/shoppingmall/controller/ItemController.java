@@ -4,7 +4,6 @@ import jpa.shoppingmall.domain.*;
 import jpa.shoppingmall.repository.MemberRepository;
 import jpa.shoppingmall.service.CategoryService;
 import jpa.shoppingmall.service.ItemService;
-import jpa.shoppingmall.web.BookForm;
 import jpa.shoppingmall.web.ItemForm;
 import jpa.shoppingmall.web.PageHandler;
 import lombok.RequiredArgsConstructor;
@@ -45,11 +44,6 @@ public class ItemController {
         return "items/itemCategoryForm";
     }
 
-//    @GetMapping("/items")
-//    public String showItemListV2(Model m, @RequestParam(defaultValue = "1") int page,
-//                                 @RequestParam String category){
-//
-//    }
     @GetMapping("/items")
     public String showItemList(Model m, @RequestParam(defaultValue = "1") int page,
                                @RequestParam(required = false) String category) {
@@ -65,8 +59,9 @@ public class ItemController {
             totalCnt = itemService.getTotalCnt();
         }
         else{
-            items = categoryService.findItems(category);
+            items = categoryService.findItems(category, offset, limit);
             totalCnt = categoryService.getCount(category);
+            log.info("해당 카테고리 아이템 개수 = {}", totalCnt);
         }
         PageHandler ph = new PageHandler(totalCnt, page);
 
@@ -86,28 +81,29 @@ public class ItemController {
             m.addAttribute("type", form.getType());
             return "items/createItemForm";
         }
-        log.info("item's type={}, director={}", form.getType(), form.getDirector());
+        log.info("item's type={}, location={}", form.getType(), form.getLocation());
         HttpSession session = request.getSession(false);
         Member member = (Member)session.getAttribute("member");
 
         
-        if(form.getType().equals("movie")){
-            Movie movie = new Movie(form.getName(), form.getPrice(), form.getStockQuantity(),
-            form.getDirector(), form.getActor(), member.getUsername());
-            itemService.save(movie);
-            categoryService.save(movie.getId(), "movie");
-        }else if(form.getType().equals("book")){
-            Book book = new Book(form.getName(), form.getPrice(), form.getStockQuantity(),
-                    form.getAuthor(), form.getIsbn(), member.getUsername());
+        if(form.getType().equals("leisure")){
+            Leisure leisure = new Leisure(form.getName(), form.getPrice(), form.getStockQuantity(),
+            form.getLocation(), form.getTime(), member.getUsername());
+            itemService.save(leisure);
+            categoryService.save(leisure.getId(), "leisure");
 
-            itemService.save(book);
-            categoryService.save(book.getId(), "book");
+        }else if(form.getType().equals("specialty")){
+            Specialty specialty = new Specialty(form.getName(), form.getPrice(), form.getStockQuantity(),
+                    form.getOrigin(), form.getProdGroup(), member.getUsername());
+
+            itemService.save(specialty);
+            categoryService.save(specialty.getId(), "specialty");
         }else{
-            Lp lp = new Lp(form.getName(), form.getPrice(), form.getStockQuantity(),
-                    form.getArtist(), form.getEtc(), member.getUsername());
+            Tradition tradition = new Tradition(form.getName(), form.getPrice(), form.getStockQuantity(),
+                    form.getArtist(), form.getLocation(), member.getUsername());
 
-            itemService.save(lp);
-            categoryService.save(lp.getId(), "lp");
+            itemService.save(tradition);
+            categoryService.save(tradition.getId(), "tradition");
         }
         return "redirect:/";
     }
@@ -135,8 +131,6 @@ public class ItemController {
 
         item.setName(form.getName());
         item.setStockQuantity(form.getStockQuantity());
-//        item.setAuthor(form.getAuthor());
-//        item.setIsbn(form.getIsbn());
         item.setPrice(form.getPrice());
 
         itemService.save(item);
@@ -154,18 +148,18 @@ public class ItemController {
         form.setPrice(item.getPrice());
         form.setStockQuantity(item.getStockQuantity());
 
-        if(type.equals("book")){
-            Book book = (Book)item;
-            form.setAuthor(book.getAuthor());
-            form.setIsbn(book.getIsbn());
-        }else if(type.equals("movie")){
-            Movie movie = (Movie)item;
-            form.setActor(movie.getActor());
-            form.setDirector(movie.getDirector());
+        if(type.equals("specialty")){
+            Specialty specialty = (Specialty)item;
+            form.setOrigin(specialty.getOrigin());
+            form.setProdGroup(specialty.getProdGroup());
+        }else if(type.equals("leisure")){
+            Leisure leisure = (Leisure)item;
+            form.setTime(leisure.getTime());
+            form.setLocation(leisure.getLocation());
         }else{
-            Lp lp = (Lp)item;
-            form.setArtist(lp.getArtist());
-            form.setEtc(lp.getEtc());
+            Tradition tradition = (Tradition)item;
+            form.setArtist(tradition.getArtist());
+            form.setLocation(tradition.getLocation());
         }
 
         m.addAttribute("type", type);
