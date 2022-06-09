@@ -8,6 +8,11 @@
       <button class="btn btn-dark" th:onclick="|location.href='@{/items?category=specialty}'|">특산품</button>
       <button class="btn btn-dark" th:onclick="|location.href='@{/items?category=leisure}'|">레저</button>
       <button class="btn btn-dark" th:onclick="|location.href='@{/items?category=tradition}'|">문화</button>
+
+      <form method="get" th:action="@{/items(keyword)}">
+        <input id="keyword" type="text" name="keyword" placeholder="검색어를 입력하세요" >
+        <input type="submit" value="검색">
+      </form>
   </div>
   <div>
     <table class="table table-striped">

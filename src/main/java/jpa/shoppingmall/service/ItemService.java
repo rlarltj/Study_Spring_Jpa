@@ -41,6 +41,9 @@ public class ItemService {
         return itemRepository.getTotalCount();
     }
 
+    public List<Item> findByKeyword(String name, int offset, int limit) {
+        return itemRepository.findByKeyword(name, offset, limit);
+    }
 
     @Transactional
     @EventListener(ApplicationReadyEvent.class)

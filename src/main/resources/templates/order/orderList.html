@@ -48,7 +48,7 @@
                     <td>
                         <a th:if="${order.orderStatus.name() == 'ORDER'} and ${session.member.username.toString()} == ${order.member.username}" href="#"
                            th:href="'javascript:cancel('+${order.id}+')'"
-                           class="btn btn-danger">CANCEL</a>
+                           class="btn btn-dark">주문취소</a>
                     </td>
             </tr>
             </tbody>

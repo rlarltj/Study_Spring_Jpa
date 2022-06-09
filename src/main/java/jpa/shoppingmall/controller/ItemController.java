@@ -46,14 +46,14 @@ public class ItemController {
 
     @GetMapping("/items")
     public String showItemList(Model m, @RequestParam(defaultValue = "1") int page,
-                               @RequestParam(required = false) String category) {
+                               @RequestParam(required = false) String category,
+                               @RequestParam(required = false) String keyword) {
         List<Item> items;
         Long totalCnt;
 
         int offset = (page-1) * 10;
         int limit = 10;
 
-        log.info("카테고리 쿼리스트링 ={}", category);
         if(" ".equals(category) || category == null ){
             items = itemService.findAllPaging(offset, limit);
             totalCnt = itemService.getTotalCnt();
@@ -61,14 +61,19 @@ public class ItemController {
         else{
             items = categoryService.findItems(category, offset, limit);
             totalCnt = categoryService.getCount(category);
-            log.info("해당 카테고리 아이템 개수 = {}", totalCnt);
         }
+
+        if(keyword != null){
+            items = itemService.findByKeyword(keyword, offset, limit);
+            totalCnt = Long.valueOf(items.size());
+            log.info("검색 키워드={}, 개수={}", keyword, totalCnt);
+        }
+
         PageHandler ph = new PageHandler(totalCnt, page);
 
         m.addAttribute("items", items);
         m.addAttribute("ph", ph);
-        log.info("show Prev ={}, next={}", ph.isShowPrev(), ph.isShowNext());
-        log.info("ph={}", ph);
+
         return "items/itemList";
 
     }
